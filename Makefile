@@ -1,6 +1,7 @@
 SPEC=Sstc
 VERSION=0.5.4
 STAGE=frozen
+
 COMMITDATE=$(shell git show -s --format=%ci | cut -d ' ' -f 1)
 GITVERSION=$(shell git describe --tags --always --dirty)
 
@@ -26,23 +27,31 @@ SPEC_SRCS=content.adoc
 $(GENDIR):
 	-mkdir $@
 
-$(REVISION_SRC): Makefile $(GENDIR) FORCE
+# Always perform this, but the rule is implemented so as to not touch the
+# output if it needn't change.
+.PHONY: $(REVISION_SRC)
+$(REVISION_SRC): Makefile $(GENDIR)
 	echo ":revdate: ${COMMITDATE}" > $@-tmp
 	echo ":revnumber: ${VERSION}-${GITVERSION}" >> $@-tmp
 	echo ":revremark: ${STAGE}" >> $@-tmp
 	diff $@ $@-tmp || mv $@-tmp $@
 
+# In order to remove the PHONY, this needs dependencies on all the input data,
+# adocs, images/, resources/, etc.
+.PHONY: $(SPEC_PDF)
 $(SPEC_PDF): $(COMMON_SRCS) $(SPEC_SRCS) $(GENDIR)
 	asciidoctor-pdf \
-		-v \
-		-a mathematical-format=svg \
-		-a pdf-style=resources/themes/risc-v_spec-pdf.yml \
-		-a pdf-fontsdir=resources/fonts \
-		$(HEADER_SRC) \
-		-o $@
+		--attribute=mathematical-format=svg \
+		--attribute=pdf-fontsdir=resources/fonts \
+		--attribute=pdf-style=resources/themes/risc-v_spec-pdf.yml \
+		--failure-level=ERROR \
+		--out-file=$@ \
+		--require=asciidoctor-bibtex \
+		--require=asciidoctor-diagram \
+		--require=asciidoctor-mathematical \
+		--trace \
+		--verbose \
+		$(HEADER_SRC)
 
 clean:
 	$(RM) -r $(GENDIR)
-
-.PHONY: FORCE
-FORCE:
