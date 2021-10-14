@@ -5,9 +5,10 @@ name: Build Document PDF
 
 on:
   push:
-    branches: [ $default-branch, "jscheid/**" ]
+    branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
+  workflow_dispatch:
 
 jobs:
   build:
