@@ -1,0 +1,9 @@
+[colophon]
+
+[NOTE]
+.Document Source Information
+****
+See link:https://github.com/riscv/riscv-time-compare[]
+for document source.  The document version includes the source control tag or
+commit hash used to produce this document.
+****
