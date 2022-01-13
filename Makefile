@@ -1,6 +1,6 @@
 SPEC=Sstc
-VERSION=0.5.4
-STAGE=frozen
+VERSION=1.0.0
+STAGE=Ratified
 
 COMMITDATE=$(shell git show -s --format=%ci | cut -d ' ' -f 1)
 GITVERSION=$(shell git describe --tags --always --dirty)
