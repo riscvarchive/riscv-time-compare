@@ -1,5 +1,5 @@
 SPEC=Sstc
-VERSION=0.5.4
+VERSION=0.5.5
 STAGE=frozen
 
 COMMITDATE=$(shell git show -s --format=%ci | cut -d ' ' -f 1)
