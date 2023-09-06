@@ -1,6 +1,6 @@
 SPEC=Sstc
 VERSION=0.5.5
-STAGE=frozen
+STAGE=post-public-review
 
 COMMITDATE=$(shell git show -s --format=%ci | cut -d ' ' -f 1)
 GITVERSION=$(shell git describe --tags --always --dirty)
